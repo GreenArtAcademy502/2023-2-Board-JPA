@@ -17,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.util.stream.Collectors;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -44,12 +46,47 @@ public class BoardService {
                                 .build()
             );
         }
+/*
+        Function<Board, List<BoardSelVo>> fn = item -> BoardSelVo.builder()
+                .iboard(item.getIboard())
+                .title(item.getTitle())
+                .writer(item.getWriter())
+                .createdAt(item.getCreatedAt())
+                .build();
+*/
+        List<BoardSelVo> result2 = list.get().map(item -> BoardSelVo.builder()
+                        .iboard(item.getIboard())
+                        .title(item.getTitle())
+                        .writer(item.getWriter())
+                        .createdAt(item.getCreatedAt())
+                        .build())
+                .collect(Collectors.toList());
 
-        return result;
+        //return result2;
 
         //2 Custom Query Method
+        List<Board> list2 = repository.findAllByOrderByIboardDesc(pageable);
+        List<BoardSelVo> result3 = list2.stream().map(item -> BoardSelVo.builder()
+                        .iboard(item.getIboard())
+                        .title(item.getTitle())
+                        .writer(item.getWriter())
+                        .createdAt(item.getCreatedAt())
+                        .build())
+                .collect(Collectors.toList());
+        //return result3;
 
         //3 JPQL
+        List<Board> list3 = repository.selBoardList(pageable);
+        List<BoardSelVo> result4 = list3.stream().map(item -> BoardSelVo.builder()
+                        .iboard(item.getIboard())
+                        .title(item.getTitle())
+                        .writer(item.getWriter())
+                        .createdAt(item.getCreatedAt())
+                        .build())
+                .collect(Collectors.toList());
+        //return result4;
+
+        return repository.selBoardList2(pageable);
 
         //4 QueryDSL
     }
