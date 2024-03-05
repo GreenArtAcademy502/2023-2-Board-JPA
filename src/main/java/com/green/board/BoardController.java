@@ -3,9 +3,13 @@ package com.green.board;
 import com.green.board.entity.Board;
 import com.green.board.entity.BoardCmt;
 import com.green.board.model.BoardCmtInsDto;
+import com.green.board.model.BoardSelVo;
+import com.green.board.model.BoardUpdDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -17,6 +21,16 @@ public class BoardController {
     @PostMapping
     public Long postBoard(@RequestBody Board board) {
         return service.postBoard(board);
+    }
+
+    @GetMapping
+    public List<BoardSelVo> getBoardList(Pageable pageable) {
+        return service.getBoardList(pageable);
+    }
+
+    @PutMapping
+    public Long putBoard(@RequestBody BoardUpdDto dto) {
+        return service.putBoard(dto);
     }
 
     @DeleteMapping
