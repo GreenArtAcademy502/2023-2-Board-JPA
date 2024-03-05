@@ -86,9 +86,10 @@ public class BoardService {
                 .collect(Collectors.toList());
         //return result4;
 
-        return repository.selBoardList2(pageable);
+        //return repository.selBoardList2(pageable);
 
         //4 QueryDSL
+        return repository.selBoardListQdsl(pageable);
     }
 
     @Transactional

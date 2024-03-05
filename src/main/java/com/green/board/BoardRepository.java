@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface BoardRepository extends JpaRepository<Board, Long> {
+public interface BoardRepository extends JpaRepository<Board, Long>, BoardQdslRepository {
     List<Board> findAllByOrderByIboardDesc(Pageable pageable);
 
     @Query("select b from Board b order by b.iboard desc")
