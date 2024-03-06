@@ -15,7 +15,7 @@ import static com.green.board.entity.QBoard.board;
 import static com.green.board.entity.QBoardCmt.boardCmt;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
-import static com.querydsl.core.group.GroupBy.list;
+import static com.querydsl.core.group.GroupBy.list; //중요!!!
 
 
 @Slf4j
@@ -37,14 +37,20 @@ public class BoardQdslRepositoryImpl implements BoardQdslRepository {
 
     @Override
     public BoardDetailVo selBoardQdsl(Long iboard) {
-        List<BoardDetailVo> list = jpaQueryFactory.from(board)
+        List<BoardDetailVo> list = jpaQueryFactory
+                .from(board)
                 .leftJoin(board.boardCmts, boardCmt)
+//                .leftJoin(boardCmt)
+//                .on(board.iboard.eq(boardCmt.board.iboard))
                 .where(board.iboard.eq(iboard))
+                .limit(3)
                 .transform(
-                        groupBy(board.iboard).list(Projections.constructor(BoardDetailVo.class,board.iboard, board.title, board.ctnt, board.writer, board.createdAt
-                                , list(Projections.constructor(BoardCmtVo.class, boardCmt.icmt, boardCmt.cmt, boardCmt.writer, boardCmt.createdAt))))
+                        groupBy(board.iboard)
+                                .list(Projections.constructor(BoardDetailVo.class, board.iboard, board.title, board.ctnt, board.writer, board.createdAt
+                                    , list(Projections.constructor(BoardCmtVo.class, boardCmt.icmt, boardCmt.cmt, boardCmt.writer, boardCmt.createdAt)))
+                                )
                 );
 
-                return list.size() > 0 ? list.get(0) : null;
+        return list.size() > 0 ? list.get(0) : null;
     }
 }

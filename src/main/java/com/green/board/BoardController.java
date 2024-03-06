@@ -61,4 +61,8 @@ public class BoardController {
         return service.postBoardCmt(dto);
     }
 
+    @DeleteMapping("/cmt")
+    public Long deleteBoardCmt(@RequestParam Long iboard) {
+        return service.deleteBoardCmt(iboard);
+    }
 }

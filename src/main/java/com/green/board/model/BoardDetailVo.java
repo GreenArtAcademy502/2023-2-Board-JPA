@@ -15,6 +15,5 @@ public class BoardDetailVo {
     private String ctnt;
     private String writer;
     private LocalDateTime createdAt;
-
-    private List<BoardCmtVo> cmts = new ArrayList();
+    private List<BoardCmtVo> cmts;
 }

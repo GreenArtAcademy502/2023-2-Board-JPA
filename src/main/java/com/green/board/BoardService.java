@@ -110,6 +110,8 @@ public class BoardService {
     @Transactional
     public void delBoard(Long iboard) {
         Board board = repository.getReferenceById(iboard);
+        //Board board = new Board();
+        //board.setIboard(iboard);
         cmtRepository.deleteByBoard(iboard);
         repository.delete(board);
     }
@@ -141,5 +143,14 @@ public class BoardService {
         boardCmt.setPw(hashedPw);
         cmtRepository.save(boardCmt);
         return boardCmt.getIcmt();
+    }
+
+    @Transactional
+    public Long deleteBoardCmt(Long iboard) {
+        Board board = repository.getReferenceById(iboard);
+        //Board board = repository.findById(iboard).orElseThrow();
+        board.getBoardCmts().remove(1);
+        //repository.delete(board);
+        return 1L;
     }
 }
