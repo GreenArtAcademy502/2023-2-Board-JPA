@@ -3,6 +3,7 @@ package com.green.board;
 import com.green.board.entity.Board;
 import com.green.board.entity.BoardCmt;
 import com.green.board.model.BoardCmtInsDto;
+import com.green.board.model.BoardDetailVo;
 import com.green.board.model.BoardSelVo;
 import com.green.board.model.BoardUpdDto;
 import lombok.RequiredArgsConstructor;
@@ -33,19 +34,33 @@ public class BoardService {
         return board.getIboard();
     }
 
+    public int getTotalPage(Pageable pageable) {
+        long rowCount = repository.countBy();
+
+        int totalPage = (int)Math.ceil((double)rowCount / pageable.getPageSize());
+        return totalPage;
+    }
+
+    @Transactional
+    public BoardDetailVo getBoard(Long iboard) {
+        return repository.selBoardQdsl(iboard);
+    }
+
     public List<BoardSelVo> getBoardList(Pageable pageable) {
         Page<Board> list = repository.findAll(pageable); //1 Default Query Method
 
         List<BoardSelVo> result = new ArrayList();
         for(Board item : list.getContent()) {
             result.add(BoardSelVo.builder()
-                                .iboard(item.getIboard())
-                                .title(item.getTitle())
-                                .writer(item.getWriter())
-                                .createdAt(item.getCreatedAt())
-                                .build()
+                    .iboard(item.getIboard())
+                    .title(item.getTitle())
+                    .writer(item.getWriter())
+                    .createdAt(item.getCreatedAt())
+                    .build()
             );
         }
+       // return result;
+
 /*
         Function<Board, List<BoardSelVo>> fn = item -> BoardSelVo.builder()
                 .iboard(item.getIboard())

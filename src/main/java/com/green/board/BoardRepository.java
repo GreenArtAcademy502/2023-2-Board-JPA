@@ -2,6 +2,7 @@ package com.green.board;
 
 import com.green.board.entity.Board;
 import com.green.board.model.BoardSelVo;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,8 @@ import java.util.List;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long>, BoardQdslRepository {
+    long countBy();
+
     List<Board> findAllByOrderByIboardDesc(Pageable pageable);
 
     @Query("select b from Board b order by b.iboard desc")

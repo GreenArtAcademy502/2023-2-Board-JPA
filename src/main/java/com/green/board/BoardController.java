@@ -3,6 +3,7 @@ package com.green.board;
 import com.green.board.entity.Board;
 import com.green.board.entity.BoardCmt;
 import com.green.board.model.BoardCmtInsDto;
+import com.green.board.model.BoardDetailVo;
 import com.green.board.model.BoardSelVo;
 import com.green.board.model.BoardUpdDto;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,17 @@ public class BoardController {
     @PostMapping
     public Long postBoard(@RequestBody Board board) {
         return service.postBoard(board);
+    }
+
+
+    @GetMapping("/total-page")
+    public int getTotalPage(Pageable pageable) {
+        return service.getTotalPage(pageable);
+    }
+
+    @GetMapping("/{iboard}")
+    public BoardDetailVo getBoard(@PathVariable Long iboard) {
+        return service.getBoard(iboard);
     }
 
     @GetMapping
